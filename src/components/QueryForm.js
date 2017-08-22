@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 export default class QueryForm extends React.Component {
   constructor(props) {
@@ -14,8 +14,9 @@ export default class QueryForm extends React.Component {
   }
 
   handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.value);
     event.preventDefault();
+    console.log('this.state.value from QueryForm handleSubmit', this.state.value);
+    this.props.getGraphSearch(this.state.value);
   }
 
   render() {

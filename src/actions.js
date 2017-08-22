@@ -7,6 +7,7 @@ export const RECEIVE_GRAPH_SEARCH = 'RECEIVE_GRAPH_SEARCH';
 export const getGraphSearch = query => {
   return dispatch => {
     dispatch(requestGraphSearch(query));
+    console.log('query from actions.getGraphSearch', query);
     const url = 'http://localhost:7474/db/data/transaction/commit';
     const requestData = JSON.stringify({
       statements: [
@@ -27,17 +28,20 @@ export const getGraphSearch = query => {
     const myRequest = new Request(url, myInit);
     fetch(myRequest)
       .then(response => response.json())
-      .then(data => receiveGraphSearch(data))
+      .then(data => {
+        console.log('data from API response actions getGraphSearch', data);
+        return dispatch(receiveGraphSearch(data));
+      })
       .catch(e => {
         console.log(e);
       });
   };
-}
+};
 
 function requestGraphSearch(query) {
   return {
     type: REQUEST_GRAPH_SEARCH,
-    query
+    query: query
   };
 }
 
