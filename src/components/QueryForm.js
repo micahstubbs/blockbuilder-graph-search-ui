@@ -9,6 +9,11 @@ export default class QueryForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentWillMount() {
+    // run the default query once on initial load
+    this.props.getGraphSearch(this.state.value);
+  }
+
   handleChange(event) {
     this.setState({ value: event.target.value });
   }
