@@ -17,8 +17,23 @@ export default function drawGraphVis(inputGraph) {
   //
   // cache images
   //
+  // TODO: be smarter about image caching
+  // so that they are not retrieved again 
+  // when a button is clicked and layout updates
+  // cache images in redux?
   const imageCache = {};
   drawGraph(inputGraph, 'grid');
+
+  //
+  // add event listeners to buttons
+  // to switch layout on button click
+  //
+  d3.select('#grid-force-button').on('click', () => {
+    drawGraph(inputGraph, 'grid');
+  });
+  d3.select('#bounded-force-button').on('click', () => {
+    drawGraph(inputGraph, 'boundedForce');
+  });
 
   //
   // visualize the graph
@@ -232,9 +247,7 @@ export default function drawGraphVis(inputGraph) {
     function clicked() {
       const m = d3.mouse(this);
       const d = findDataUnderMouse(m, layout);
-      const blockUrl = `http://bl.ocks.org/${d.user
-        ? `${d.user}/`
-        : ''}${d.id}`;
+      const blockUrl = `http://bl.ocks.org/${d.user? `${d.user}/`: ''}${d.id}`;
       window.open(blockUrl);
     }
   }
