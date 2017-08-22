@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getGraphSearch } from '../actions';
 import SearchBar from '../components/SearchBar';
-import Results from '../components/Results';
+import Results from '../components/results/Results';
 
 
 class GraphSearch extends Component {
