@@ -1,3 +1,4 @@
+/* eslint-disable */
 /*
 Author: Corneliu S. (github.com/upphiminn)
 
