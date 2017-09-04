@@ -1,5 +1,6 @@
 export const REQUEST_GRAPH_SEARCH = 'REQUEST_GRAPH_SEARCH';
 export const RECEIVE_GRAPH_SEARCH = 'RECEIVE_GRAPH_SEARCH';
+export const RENDER_GRID_LAYOUT = 'RENDER_GRID_LAYOUT';
 
 //
 // make the request to neo4j for the data
@@ -38,6 +39,12 @@ export const getGraphSearch = query => {
   };
 };
 
+export const dispatchRenderGridLayout = () => {
+  return dispatch => {
+    dispatch(renderGridLayout());
+  };
+};
+
 function requestGraphSearch(query) {
   return {
     type: REQUEST_GRAPH_SEARCH,
@@ -49,5 +56,11 @@ function receiveGraphSearch(data) {
   return {
     type: RECEIVE_GRAPH_SEARCH,
     data
+  };
+}
+
+function renderGridLayout() {
+  return {
+    type: RENDER_GRID_LAYOUT
   };
 }

@@ -70,6 +70,11 @@ export default function rootReducer(state = initialState, action) {
         loading: false,
         results: parseResponse(action.data)
       };
+    case actions.RENDER_GRID_LAYOUT:
+      return {
+        ...state,
+        layout: 'grid'
+      };
     default:
       return state;
   }

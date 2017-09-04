@@ -1,17 +1,13 @@
 import React from 'react';
 import QueryForm from './QueryForm';
+import SearchControls from './SearchControls';
 
 export default function SearchBar(props) {
+  const { defaultQuery, getGraphSearch, dispatchRenderGridLayout } = props;
   return (
     <div className="controls">
-      <QueryForm
-        defaultQuery={props.defaultQuery}
-        getGraphSearch={props.getGraphSearch}
-      />
-      <div className="layout">
-        <button id="grid-force-button">grid force</button>
-        <button id="bounded-force-button">bounded force</button>
-      </div>
+      <QueryForm defaultQuery={defaultQuery} getGraphSearch={getGraphSearch} />
+      <SearchControls dispatchRenderGridLayout={dispatchRenderGridLayout} />
     </div>
   );
 }
