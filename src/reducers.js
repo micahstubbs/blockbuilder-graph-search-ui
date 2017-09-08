@@ -75,6 +75,11 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         layout: 'grid'
       };
+    case actions.RENDER_BOUNDED_FORCE_LAYOUT:
+      return {
+        ...state,
+        layout: 'boundedForce'
+      };
     default:
       return state;
   }

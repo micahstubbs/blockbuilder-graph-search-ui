@@ -3,11 +3,19 @@ import QueryForm from './QueryForm';
 import SearchControls from './SearchControls';
 
 export default function SearchBar(props) {
-  const { defaultQuery, getGraphSearch, dispatchRenderGridLayout } = props;
+  const {
+    defaultQuery,
+    getGraphSearch,
+    dispatchRenderGridLayout,
+    dispatchRenderBoundedForceLayout
+  } = props;
   return (
     <div className="controls">
       <QueryForm defaultQuery={defaultQuery} getGraphSearch={getGraphSearch} />
-      <SearchControls dispatchRenderGridLayout={dispatchRenderGridLayout} />
+      <SearchControls
+        dispatchRenderGridLayout={dispatchRenderGridLayout}
+        dispatchRenderBoundedForceLayout={dispatchRenderBoundedForceLayout}
+      />
     </div>
   );
 }
