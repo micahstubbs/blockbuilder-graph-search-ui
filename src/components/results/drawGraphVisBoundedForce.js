@@ -3,8 +3,8 @@ import cloneDeep from 'lodash.clonedeep';
 import forceInABox from '../../lib/forceInABox';
 import jLouvain from '../../lib/jsLouvain';
 
-export default function drawGraphVis(inputGraph) {
-  console.log('drawGraphVis was called');
+export default function drawGraphVisBoundedForce(inputGraph) {
+  console.log('drawGraphVisBoundedForce was called');
   const canvas = document.querySelector('canvas');
   const context = canvas.getContext('2d');
   const width = canvas.width;
