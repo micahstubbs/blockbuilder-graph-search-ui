@@ -11,6 +11,11 @@ export default class SearchControls extends React.Component {
     dispatchRenderBoundedForceLayout();
   }
 
+  slippyCanvasClick() {
+    const { dispatchRenderSlippyCanvasLayout } = this.props;
+    dispatchRenderSlippyCanvasLayout();
+  }
+
   render() {
     return (
       <div className="layout">
@@ -22,6 +27,12 @@ export default class SearchControls extends React.Component {
           onClick={this.boundedForceClick.bind(this)}
         >
           bounded force
+        </button>
+        <button
+          id="slippy-canvas-button"
+          onClick={this.slippyCanvasClick.bind(this)}
+        >
+          slippy canvas
         </button>
       </div>
     );

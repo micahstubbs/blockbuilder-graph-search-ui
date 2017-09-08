@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import drawGraphVisGrid from './drawGraphVisGrid';
 import drawGraphVisBoundedForce from './drawGraphVisBoundedForce';
+import drawGraphVisSlippyCanvas from './drawGraphVisSlippyCanvas';
 
 export default class Results extends Component {
   componentDidUpdate() {
@@ -13,8 +14,11 @@ export default class Results extends Component {
         case 'boundedForce':
           drawGraphVisBoundedForce(results);
           break;
+        case 'slippyCanvas': 
+          drawGraphVisSlippyCanvas(results);
+          break;
         default:
-          drawGraphVisGrid(results);
+          drawGraphVisSlippyCanvas(results);
       }
     }
   }

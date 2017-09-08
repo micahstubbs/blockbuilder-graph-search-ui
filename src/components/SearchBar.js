@@ -7,7 +7,8 @@ export default function SearchBar(props) {
     defaultQuery,
     getGraphSearch,
     dispatchRenderGridLayout,
-    dispatchRenderBoundedForceLayout
+    dispatchRenderBoundedForceLayout,
+    dispatchRenderSlippyCanvasLayout
   } = props;
   return (
     <div className="controls">
@@ -15,6 +16,7 @@ export default function SearchBar(props) {
       <SearchControls
         dispatchRenderGridLayout={dispatchRenderGridLayout}
         dispatchRenderBoundedForceLayout={dispatchRenderBoundedForceLayout}
+        dispatchRenderSlippyCanvasLayout={dispatchRenderSlippyCanvasLayout}
       />
     </div>
   );

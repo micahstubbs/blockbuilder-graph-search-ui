@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import {
   getGraphSearch,
   dispatchRenderGridLayout,
-  dispatchRenderBoundedForceLayout
+  dispatchRenderBoundedForceLayout,
+  dispatchRenderSlippyCanvasLayout
 } from '../actions';
 import SearchBar from '../components/SearchBar';
 import Results from '../components/results/Results';
@@ -14,6 +15,7 @@ class GraphSearch extends Component {
       getGraphSearch,
       dispatchRenderGridLayout,
       dispatchRenderBoundedForceLayout,
+      dispatchRenderSlippyCanvasLayout,
       results,
       layout
     } = this.props;
@@ -25,6 +27,7 @@ class GraphSearch extends Component {
           getGraphSearch={getGraphSearch}
           dispatchRenderGridLayout={dispatchRenderGridLayout}
           dispatchRenderBoundedForceLayout={dispatchRenderBoundedForceLayout}
+          dispatchRenderSlippyCanvasLayout={dispatchRenderSlippyCanvasLayout}
         />
         <Results results={results} layout={layout} />
       </div>
@@ -45,7 +48,8 @@ const mapDispatchToProps = dispatch => {
     getGraphSearch: query => dispatch(getGraphSearch(query)),
     dispatchRenderGridLayout: () => dispatch(dispatchRenderGridLayout()),
     dispatchRenderBoundedForceLayout: () =>
-      dispatch(dispatchRenderBoundedForceLayout())
+      dispatch(dispatchRenderBoundedForceLayout()),
+    dispatchRenderSlippyCanvasLayout: () => dispatch(dispatchRenderSlippyCanvasLayout())
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(GraphSearch);

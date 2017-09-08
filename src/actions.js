@@ -2,6 +2,7 @@ export const REQUEST_GRAPH_SEARCH = 'REQUEST_GRAPH_SEARCH';
 export const RECEIVE_GRAPH_SEARCH = 'RECEIVE_GRAPH_SEARCH';
 export const RENDER_GRID_LAYOUT = 'RENDER_GRID_LAYOUT';
 export const RENDER_BOUNDED_FORCE_LAYOUT = 'RENDER_BOUNDED_FORCE_LAYOUT';
+export const RENDER_SLIPPY_CANVAS_LAYOUT = 'RENDER_SLIPPY_CANVAS_LAYOUT';
 
 //
 // make the request to neo4j for the data
@@ -52,6 +53,12 @@ export const dispatchRenderBoundedForceLayout = () => {
   };
 };
 
+export const dispatchRenderSlippyCanvasLayout = () => {
+  return dispatch => {
+    dispatch(renderSlippyCanvasLayout());
+  };
+};
+
 function requestGraphSearch(query) {
   return {
     type: REQUEST_GRAPH_SEARCH,
@@ -76,4 +83,10 @@ function renderBoundedForceLayout() {
   return {
     type: RENDER_BOUNDED_FORCE_LAYOUT
   };
+}
+
+function renderSlippyCanvasLayout() {
+  return {
+    type: RENDER_SLIPPY_CANVAS_LAYOUT
+  }
 }

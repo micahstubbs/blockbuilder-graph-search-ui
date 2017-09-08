@@ -80,6 +80,11 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         layout: 'boundedForce'
       };
+    case actions.RENDER_SLIPPY_CANVAS_LAYOUT:
+      return {
+        ...state,
+        layout: 'slippyCanvas'
+      };
     default:
       return state;
   }
