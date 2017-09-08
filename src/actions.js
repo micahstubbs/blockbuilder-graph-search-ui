@@ -1,5 +1,7 @@
 export const REQUEST_GRAPH_SEARCH = 'REQUEST_GRAPH_SEARCH';
 export const RECEIVE_GRAPH_SEARCH = 'RECEIVE_GRAPH_SEARCH';
+export const RENDER_GRID_LAYOUT = 'RENDER_GRID_LAYOUT';
+export const RENDER_BOUNDED_FORCE_LAYOUT = 'RENDER_BOUNDED_FORCE_LAYOUT';
 
 //
 // make the request to neo4j for the data
@@ -38,6 +40,18 @@ export const getGraphSearch = query => {
   };
 };
 
+export const dispatchRenderGridLayout = () => {
+  return dispatch => {
+    dispatch(renderGridLayout());
+  };
+};
+
+export const dispatchRenderBoundedForceLayout = () => {
+  return dispatch => {
+    dispatch(renderBoundedForceLayout());
+  };
+};
+
 function requestGraphSearch(query) {
   return {
     type: REQUEST_GRAPH_SEARCH,
@@ -49,5 +63,17 @@ function receiveGraphSearch(data) {
   return {
     type: RECEIVE_GRAPH_SEARCH,
     data
+  };
+}
+
+function renderGridLayout() {
+  return {
+    type: RENDER_GRID_LAYOUT
+  };
+}
+
+function renderBoundedForceLayout() {
+  return {
+    type: RENDER_BOUNDED_FORCE_LAYOUT
   };
 }
