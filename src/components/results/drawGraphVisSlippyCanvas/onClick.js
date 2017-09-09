@@ -11,6 +11,8 @@ export default function onClick(props) {
     searchRadius
   };
   const d = findDataUnderMouse(findDataUnderMouseProps);
-  const blockUrl = `http://bl.ocks.org/${d.user ? `${d.user}/` : ''}${d.id}`;
-  window.open(blockUrl);
+  if (typeof d !== 'undefined') {
+    const blockUrl = `http://bl.ocks.org/${d.user ? `${d.user}/` : ''}${d.id}`;
+    window.open(blockUrl);
+  }
 }
