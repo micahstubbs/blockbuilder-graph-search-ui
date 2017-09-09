@@ -3,6 +3,8 @@ import cloneDeep from 'lodash.clonedeep';
 import forceInABox from '../../lib/forceInABox';
 import jLouvain from '../../lib/jsLouvain';
 
+import cacheImages from './cacheImages';
+
 export default function drawGraphVisBoundedForce(inputGraph) {
   console.log('drawGraphVisBoundedForce was called');
   const canvas = document.querySelector('canvas');
@@ -23,17 +25,6 @@ export default function drawGraphVisBoundedForce(inputGraph) {
   // cache images in redux?
   const imageCache = {};
   drawGraph(inputGraph, 'grid');
-
-  //
-  // add event listeners to buttons
-  // to switch layout on button click
-  //
-  d3.select('#grid-force-button').on('click', () => {
-    drawGraph(inputGraph, 'grid');
-  });
-  d3.select('#bounded-force-button').on('click', () => {
-    drawGraph(inputGraph, 'boundedForce');
-  });
 
   //
   // visualize the graph
@@ -303,16 +294,5 @@ export default function drawGraphVisBoundedForce(inputGraph) {
       context.font = '20px Georgia';
       context.fillText('?', nX - 5, nY + 8);
     }
-  }
-
-  function cacheImages(graph, imageCache) {
-    graph.nodes.forEach(d => {
-      const image = new Image();
-
-      image.src = `https://bl.ocks.org/${d.user
-        ? `${d.user}/`
-        : ''}raw/${d.id}/thumbnail.png`;
-      imageCache[d.id] = image;
-    });
   }
 }
