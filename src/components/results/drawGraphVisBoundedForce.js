@@ -191,10 +191,7 @@ export default function drawGraphVisBoundedForce(inputGraph) {
       boundScalar(m[0], 'boundedForce'),
       boundScalar(m[1], 'boundedForce')
     ];
-    console.log('m', m);
-    console.log('bFM', bFM);
     const resultFound = simulation.find(bFM[0], bFM[1], searchRadius);
-    console.log('resultFound in findDataUnderMouse', resultFound);
     return resultFound;
   }
 
