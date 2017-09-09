@@ -17,7 +17,7 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
   const context = canvas.getContext('2d');
   const width = canvas.width;
   const height = canvas.height;
-  const radius = 2.5;
+  const radius = 30;
   let transform = d3.zoomIdentity;
 
   const imageCache = {};
