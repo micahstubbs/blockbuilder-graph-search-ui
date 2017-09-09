@@ -1,20 +1,37 @@
 import * as d3 from 'd3';
+import cloneDeep from 'lodash.clonedeep';
+import render from './render';
+
+import cacheImages from '../cacheImages';
 
 export default function drawGraphVisSlippyCanvas(inputGraph) {
   console.log('drawGraphVisSlippyCanvas was called');
-
   const canvas = document.querySelector('canvas');
   const context = canvas.getContext('2d');
   const width = canvas.width;
   const height = canvas.height;
   const radius = 2.5;
-    let transform = d3.zoomIdentity;
+  let transform = d3.zoomIdentity;
+
+  //
+  //
+  //
+  const imageCache = {};
+  let simulation;
+  const graph = cloneDeep(inputGraph);
+
+  cacheImages(graph, imageCache);
+
+  //
+  //
+  //
 
   const points = d3.range(2000).map(phyllotaxis(10));
 
   console.log('canvas', canvas);
 
-  d3.select(canvas)
+  d3
+    .select(canvas)
     .call(
       d3
         .drag()
@@ -26,17 +43,21 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
         .zoom()
         .scaleExtent([1 / 2, 8])
         .on('zoom', zoomed)
-    )
-    
-  console.log('render from drawGraphVisSlippyCanvas', render);
-  const boundRender = render().bind(this, canvas);
-  boundRender();
+    );
 
-  context.clearRect(0, 0, width, height);
+  //
+  // call render once to initialize
+  //
+  console.log('render from drawGraphVisSlippyCanvas', render);
+  let renderProps = { context, width, height, transform, points, drawPoint };
+  render(renderProps);
+
+  // context.clearRect(0, 0, width, height);
 
   function zoomed() {
     transform = d3.event.transform;
-    render();
+    renderProps = { context, width, height, transform, points, drawPoint };
+    render(renderProps);
   }
 
   function dragsubject() {
@@ -59,20 +80,10 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
   }
 
   function dragged() {
+    renderProps = { context, width, height, transform, points, drawPoint };
     d3.event.subject[0] = transform.invertX(d3.event.x);
     d3.event.subject[1] = transform.invertY(d3.event.y);
-    render();
-  }
-
-  function render() {
-    context.save();
-    context.clearRect(0, 0, width, height);
-    context.beginPath();
-    context.translate(transform.x, transform.y);
-    context.scale(transform.k, transform.k);
-    points.forEach(drawPoint);
-    context.fill();
-    context.restore();
+    render(renderProps);
   }
 
   function drawPoint(point) {
