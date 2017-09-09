@@ -54,7 +54,9 @@ export default function drawGraphVisGrid(inputGraph) {
       return { source: d.source, target: d.target, weight: d.weight };
     });
 
-    const community = jLouvain().nodes(nodeData).edges(linkData);
+    const community = jLouvain()
+      .nodes(nodeData)
+      .edges(linkData);
     const result = community();
 
     const nodeIndexHash = {};
@@ -177,10 +179,12 @@ export default function drawGraphVisGrid(inputGraph) {
     function clicked() {
       const m = d3.mouse(this);
       const d = findDataUnderMouse(m);
-      const blockUrl = `http://bl.ocks.org/${d.user
-        ? `${d.user}/`
-        : ''}${d.id}`;
-      window.open(blockUrl);
+      if (typeof d !== 'undefined') {
+        const blockUrl = `http://bl.ocks.org/${d.user
+          ? `${d.user}/`
+          : ''}${d.id}`;
+        window.open(blockUrl);
+      }
     }
   }
 
@@ -272,5 +276,5 @@ export default function drawGraphVisGrid(inputGraph) {
       context.font = '20px Georgia';
       context.fillText('?', nX - 5, nY + 8);
     }
-    }
+  }
 }
