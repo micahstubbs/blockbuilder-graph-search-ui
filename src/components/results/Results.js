@@ -3,7 +3,7 @@ import drawGraphVisSlippyCanvas from './drawGraphVisSlippyCanvas/drawGraphVisSli
 
 export default class Results extends Component {
   componentDidUpdate() {
-    const { results, layout } = this.props;
+    const { results } = this.props;
     if (results && typeof results.nodes !== 'undefined') {
       drawGraphVisSlippyCanvas(results);
     }
