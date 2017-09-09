@@ -108,27 +108,10 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
   }
   simulation.stop();
 
-  // d3
-  //   .select(canvas)
-  //   .on('mousemove', mousemoved)
-  //   .on('click', clicked)
-  // .call(
-  //   d3
-  //     .drag()
-  //     .container(canvas)
-  //     .subject(dragsubject)
-  //     .on('start', dragstarted)
-  //     .on('drag', dragged)
-  //     .on('end', dragended)
-  // );
-
   //
   //
   //
-
   const points = graph.nodes;
-
-  console.log('graph', graph);
 
   d3
     .select(canvas)
