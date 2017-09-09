@@ -30,7 +30,7 @@ export default class Results extends Component {
       <a target="_blank" style={{ outline: 'none' }}>
         <div id="canvas-container">
           <div />
-          <canvas width="960" height="960" className={layout}>
+          <canvas width="1255" height="600" className={layout}>
             Your browser does not support canvas
           </canvas>
         </div>
