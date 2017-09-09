@@ -8,6 +8,7 @@ import render from './render';
 import cacheImages from '../cacheImages';
 import dragged from './dragged';
 import zoomed from './zoomed';
+import dragSubject from './dragSubject';
 
 export default function drawGraphVisSlippyCanvas(inputGraph) {
   console.log('drawGraphVisSlippyCanvas was called');
@@ -111,16 +112,17 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
   simulation.stop();
 
   //
-  //
+  // setup drag and zoom
   //
   const draggedProps = { context, width, height, transform, graph, imageCache };
   const zoomedProps = { context, width, height, graph, imageCache };
+  const dragSubjectProps = { transform, points: graph.nodes, radius };
   d3
     .select(canvas)
     .call(
       d3
         .drag()
-        .subject(dragsubject)
+        .subject(dragSubject.bind(this, dragSubjectProps))
         .on('drag', dragged.bind(this, draggedProps))
     )
     .call(
@@ -142,24 +144,4 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
     imageCache
   };
   render(renderProps);
-
-  const points = graph.nodes;
-  function dragsubject() {
-    var i,
-      x = transform.invertX(d3.event.x),
-      y = transform.invertY(d3.event.y),
-      dx,
-      dy;
-
-    for (i = points.length - 1; i >= 0; --i) {
-      let point = points[i];
-      dx = x - point[0];
-      dy = y - point[1];
-      if (dx * dx + dy * dy < radius * radius) {
-        point.x = transform.applyX(point[0]);
-        point.y = transform.applyY(point[1]);
-        return point;
-      }
-    }
-  }
 }
