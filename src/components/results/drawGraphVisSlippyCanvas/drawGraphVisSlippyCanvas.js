@@ -10,6 +10,10 @@ import dragged from './dragged';
 import zoomed from './zoomed';
 import dragSubject from './dragSubject';
 import onClick from './onClick';
+import nodeDragSubject from './nodeDragSubject';
+import nodeDragStarted from './nodeDragStarted';
+import nodeDragged from './nodeDragged';
+import nodeDragEnded from './nodeDragEnded';
 
 export default function drawGraphVisSlippyCanvas(inputGraph) {
   console.log('drawGraphVisSlippyCanvas was called');
@@ -114,15 +118,28 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
   const zoomedProps = { context, width, height, graph, imageCache };
   const dragSubjectProps = { transform, points: graph.nodes, radius };
   const onClickProps = { simulation, searchRadius, canvas };
+  const nodeDragSubjectProps = { simulation, searchRadius };
+  const nodeDragStartedProps = { simulation };
+  const nodeDragEndedProps = { simulation };
   d3
     .select(canvas)
     .on('click', onClick.bind(this, onClickProps))
     .call(
       d3
         .drag()
+        .container(canvas)
         .subject(dragSubject.bind(this, dragSubjectProps))
         .on('drag', dragged.bind(this, draggedProps))
     )
+    // .call(
+    //   d3
+    //     .drag()
+    //     .container(canvas)
+    //     .subject(nodeDragSubject.bind(this, nodeDragSubjectProps))
+    //     .on('start', nodeDragStarted.bind(this, nodeDragStartedProps))
+    //     .on('drag', nodeDragged)
+    //     .on('end', nodeDragEnded.bind(this, nodeDragEndedProps))
+    // )
     .call(
       d3
         .zoom()
