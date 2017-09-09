@@ -20,7 +20,6 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
   //
   //
   const imageCache = {};
-  const color = d3.scaleOrdinal().range(d3.schemeCategory20);
   let simulation;
 
   // make a copy of inputGraph
@@ -65,13 +64,6 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
   //
   //
   //
-  const users = d3
-    .nest()
-    .key(d => d.user)
-    .entries(graph.nodes)
-    .sort((a, b) => b.values.length - a.values.length);
-
-  color.domain(users.map(d => d.key));
 
   //
   // process links data to use simple node array index ids
@@ -156,15 +148,32 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
   //
   // call render once to initialize
   //
-  console.log('render from drawGraphVisSlippyCanvas', render);
-  let renderProps = { context, width, height, transform, points, drawPoint, graph };
+  let renderProps = {
+    context,
+    width,
+    height,
+    transform,
+    points,
+    drawPoint,
+    graph,
+    imageCache
+  };
   render(renderProps);
 
   // context.clearRect(0, 0, width, height);
 
   function zoomed() {
     transform = d3.event.transform;
-    renderProps = { context, width, height, transform, points, drawPoint, graph };
+    renderProps = {
+      context,
+      width,
+      height,
+      transform,
+      points,
+      drawPoint,
+      graph,
+      imageCache
+    };
     render(renderProps);
   }
 
@@ -187,8 +196,17 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
     }
   }
 
-  function dragged() { 
-    renderProps = { context, width, height, transform, points, drawPoint, graph };
+  function dragged() {
+    renderProps = {
+      context,
+      width,
+      height,
+      transform,
+      points,
+      drawPoint,
+      graph,
+      imageCache
+    };
     d3.event.subject[0] = transform.invertX(d3.event.x);
     d3.event.subject[1] = transform.invertY(d3.event.y);
     render(renderProps);

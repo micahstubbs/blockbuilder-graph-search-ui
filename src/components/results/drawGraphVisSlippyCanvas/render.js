@@ -1,7 +1,8 @@
 import drawLink from './drawLink';
+import drawNode from './drawNode';
 
 export default function render(props) {
-  const { context, width, height, transform, points, drawPoint, graph } = props;
+  const { context, width, height, transform, graph, imageCache } = props;
   context.save();
   context.clearRect(0, 0, width, height);
   context.beginPath();
@@ -12,8 +13,11 @@ export default function render(props) {
   graph.links.forEach(drawLink.bind(this, context));
   context.strokeStyle = '#aaa';
   context.stroke();
-  points.forEach(drawPoint);
-  context.fill();
+
+  graph.nodes.forEach(node => {
+    context.beginPath();
+    drawNode(context, imageCache, width, height, node);
+  });
 
   context.restore();
 }
