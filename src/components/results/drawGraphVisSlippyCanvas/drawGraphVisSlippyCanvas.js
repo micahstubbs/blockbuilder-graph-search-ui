@@ -136,8 +136,6 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
     width,
     height,
     transform,
-    points,
-    drawPoint,
     graph,
     imageCache
   };
@@ -152,8 +150,6 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
       width,
       height,
       transform,
-      points,
-      drawPoint,
       graph,
       imageCache
     };
@@ -185,18 +181,11 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
       width,
       height,
       transform,
-      points,
-      drawPoint,
       graph,
       imageCache
     };
     d3.event.subject[0] = transform.invertX(d3.event.x);
     d3.event.subject[1] = transform.invertY(d3.event.y);
     render(renderProps);
-  }
-
-  function drawPoint(point) {
-    context.moveTo(point.x + radius, point.x);
-    context.arc(point.x, point.y, radius, 0, 2 * Math.PI);
   }
 }
