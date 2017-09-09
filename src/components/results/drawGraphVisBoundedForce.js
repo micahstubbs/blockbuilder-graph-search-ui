@@ -19,10 +19,6 @@ export default function drawGraphVisBoundedForce(inputGraph) {
   //
   // cache images
   //
-  // TODO: be smarter about image caching
-  // so that they are not retrieved again
-  // when a button is clicked and layout updates
-  // cache images in redux?
   const imageCache = {};
   drawGraph(inputGraph, 'grid');
 
