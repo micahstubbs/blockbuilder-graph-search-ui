@@ -13,6 +13,7 @@ import onClick from './onClick';
 
 export default function drawGraphVisSlippyCanvas(inputGraph) {
   console.log('drawGraphVisSlippyCanvas was called');
+  console.log('inputGraph from drawGraphVisSlippyCanvas', inputGraph);
   const canvas = document.querySelector('canvas');
   const context = canvas.getContext('2d');
   const width = canvas.width;
