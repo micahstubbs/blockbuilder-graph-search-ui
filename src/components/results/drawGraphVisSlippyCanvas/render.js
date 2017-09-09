@@ -14,6 +14,7 @@ export default function render(props) {
   context.strokeStyle = '#aaa';
   context.stroke();
 
+  // draw nodes
   graph.nodes.forEach(node => {
     context.beginPath();
     drawNode(context, imageCache, width, height, node);

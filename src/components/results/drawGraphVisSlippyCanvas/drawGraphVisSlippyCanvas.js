@@ -18,10 +18,7 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
   const height = canvas.height;
   const radius = 2.5;
   let transform = d3.zoomIdentity;
-
-  //
-  //
-  //
+  
   const imageCache = {};
   let simulation;
 
@@ -63,10 +60,6 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
     node.group = result[node.id];
     nodeIndexHash[node.id] = i;
   });
-
-  //
-  //
-  //
 
   //
   // process links data to use simple node array index ids
