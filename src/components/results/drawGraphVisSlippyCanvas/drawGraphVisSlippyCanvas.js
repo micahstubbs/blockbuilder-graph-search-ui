@@ -9,6 +9,7 @@ import cacheImages from '../cacheImages';
 import dragged from './dragged';
 import zoomed from './zoomed';
 import dragSubject from './dragSubject';
+import onClick from './onClick';
 
 export default function drawGraphVisSlippyCanvas(inputGraph) {
   console.log('drawGraphVisSlippyCanvas was called');
@@ -18,9 +19,10 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
   const height = canvas.height;
   const radius = 2.5;
   let transform = d3.zoomIdentity;
-  
+
   const imageCache = {};
   let simulation;
+  const searchRadius = 30;
 
   // make a copy of inputGraph
   // so that we have a pristine globalGraph
@@ -110,8 +112,10 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
   const draggedProps = { context, width, height, transform, graph, imageCache };
   const zoomedProps = { context, width, height, graph, imageCache };
   const dragSubjectProps = { transform, points: graph.nodes, radius };
+  const onClickProps = { simulation, searchRadius, canvas };
   d3
     .select(canvas)
+    .on('click', onClick.bind(this, onClickProps))
     .call(
       d3
         .drag()

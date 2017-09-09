@@ -175,6 +175,7 @@ export default function drawGraphVisBoundedForce(inputGraph) {
     }
 
     function clicked() {
+      console.log('this from clicked', this);
       const m = d3.mouse(this);
       const d = findDataUnderMouse(m);
       const blockUrl = `http://bl.ocks.org/${d.user
