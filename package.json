@@ -1,7 +1,7 @@
 {
   "name": "blockbuilder-graph-search-ui",
   "version": "0.1.0",
-  "private": true,
+  "license": "Apache-2.0",
   "dependencies": {
     "d3": "^4.10.0",
     "lodash.clonedeep": "^4.5.0",
