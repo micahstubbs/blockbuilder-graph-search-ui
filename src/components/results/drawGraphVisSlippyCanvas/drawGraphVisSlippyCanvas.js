@@ -134,7 +134,6 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
   //
   //
 
-  // const points = d3.range(2000).map(phyllotaxis(10));
   const points = graph.nodes;
 
   console.log('graph', graph);
@@ -158,14 +157,14 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
   // call render once to initialize
   //
   console.log('render from drawGraphVisSlippyCanvas', render);
-  let renderProps = { context, width, height, transform, points, drawPoint };
+  let renderProps = { context, width, height, transform, points, drawPoint, graph };
   render(renderProps);
 
   // context.clearRect(0, 0, width, height);
 
   function zoomed() {
     transform = d3.event.transform;
-    renderProps = { context, width, height, transform, points, drawPoint };
+    renderProps = { context, width, height, transform, points, drawPoint, graph };
     render(renderProps);
   }
 
@@ -189,7 +188,7 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
   }
 
   function dragged() { 
-    renderProps = { context, width, height, transform, points, drawPoint };
+    renderProps = { context, width, height, transform, points, drawPoint, graph };
     d3.event.subject[0] = transform.invertX(d3.event.x);
     d3.event.subject[1] = transform.invertY(d3.event.y);
     render(renderProps);
@@ -198,14 +197,5 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
   function drawPoint(point) {
     context.moveTo(point.x + radius, point.x);
     context.arc(point.x, point.y, radius, 0, 2 * Math.PI);
-  }
-
-  function phyllotaxis(radius) {
-    var theta = Math.PI * (3 - Math.sqrt(5));
-    return function(i) {
-      var r = radius * Math.sqrt(i),
-        a = theta * i;
-      return [width / 2 + r * Math.cos(a), height / 2 + r * Math.sin(a)];
-    };
   }
 }
