@@ -1,5 +1,7 @@
 # blockbuilder-graph-search-ui
 
+A work-in-progress graph search user interface for [blockbuilder search](http://blockbuilder.org/search)  
+
 prototypes [bbgs-ui-prototypes](https://github.com/micahstubbs/bbgs-ui-prototypes)  
 graph database backend [blockbuilder-graph-search-index](https://github.com/micahstubbs/blockbuilder-graph-search-index)  
 the github issue that inspired it all [blockbuilder-search/issues/6](https://github.com/enjalot/blockbuilder-search/issues/6)  
