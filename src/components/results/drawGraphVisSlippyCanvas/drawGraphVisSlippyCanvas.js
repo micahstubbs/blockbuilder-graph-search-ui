@@ -6,6 +6,7 @@ import forceInABox from '../../../lib/forceInABox';
 
 import render from './render';
 import cacheImages from '../cacheImages';
+import dragged from './dragged';
 
 export default function drawGraphVisSlippyCanvas(inputGraph) {
   console.log('drawGraphVisSlippyCanvas was called');
@@ -111,7 +112,7 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
   //
   //
   //
-  const points = graph.nodes;
+  const draggedProps = { context, width, height, transform, graph, imageCache };
 
   d3
     .select(canvas)
@@ -119,7 +120,13 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
       d3
         .drag()
         .subject(dragsubject)
-        .on('drag', dragged)
+        .on(
+          'drag',
+          dragged.bind(
+            this,
+            draggedProps
+          )
+        )
     )
     .call(
       d3
@@ -156,6 +163,7 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
     render(renderProps);
   }
 
+  const points = graph.nodes;
   function dragsubject() {
     var i,
       x = transform.invertX(d3.event.x),
@@ -173,19 +181,5 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
         return point;
       }
     }
-  }
-
-  function dragged() {
-    renderProps = {
-      context,
-      width,
-      height,
-      transform,
-      graph,
-      imageCache
-    };
-    d3.event.subject[0] = transform.invertX(d3.event.x);
-    d3.event.subject[1] = transform.invertY(d3.event.y);
-    render(renderProps);
   }
 }
