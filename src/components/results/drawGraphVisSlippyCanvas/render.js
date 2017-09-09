@@ -1,5 +1,6 @@
 import drawLink from './drawLink';
 import drawNode from './drawNode';
+import findDataUnderMouse from './findDataUnderMouse';
 
 export default function render(props) {
   const { context, width, height, transform, graph, imageCache } = props;

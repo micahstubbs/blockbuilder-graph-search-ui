@@ -22,7 +22,6 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
   const context = canvas.getContext('2d');
   const width = canvas.width;
   const height = canvas.height;
-  const radius = 30;
   let transform = d3.zoomIdentity;
 
   const imageCache = {};
@@ -114,10 +113,25 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
   //
   // setup drag and zoom
   //
-  const draggedProps = { context, width, height, transform, graph, imageCache };
+  const draggedProps = {
+    context,
+    width,
+    height,
+    transform,
+    graph,
+    imageCache,
+    simulation,
+    searchRadius,
+    canvas
+  };
   const zoomedProps = { context, width, height, graph, imageCache };
-  const dragSubjectProps = { transform, points: graph.nodes, radius };
-  const onClickProps = { simulation, searchRadius, canvas };
+  const dragSubjectProps = {
+    transform,
+    points: graph.nodes,
+    searchRadius,
+    simulation
+  };
+  const onClickProps = { simulation, searchRadius, canvas, transform };
   const nodeDragSubjectProps = { simulation, searchRadius };
   const nodeDragStartedProps = { simulation };
   const nodeDragEndedProps = { simulation };
@@ -129,7 +143,9 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
         .drag()
         .container(canvas)
         .subject(dragSubject.bind(this, dragSubjectProps))
+        .on('start', nodeDragStarted.bind(this, nodeDragStartedProps))
         .on('drag', dragged.bind(this, draggedProps))
+        .on('end', nodeDragEnded.bind(this, nodeDragEndedProps))
     )
     // .call(
     //   d3
