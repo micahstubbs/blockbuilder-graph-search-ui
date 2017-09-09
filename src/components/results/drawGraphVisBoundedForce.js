@@ -55,7 +55,9 @@ export default function drawGraphVisBoundedForce(inputGraph) {
       return { source: d.source, target: d.target, weight: d.weight };
     });
 
-    const community = jLouvain().nodes(nodeData).edges(linkData);
+    const community = jLouvain()
+      .nodes(nodeData)
+      .edges(linkData);
     const result = community();
 
     const nodeIndexHash = {};
@@ -175,13 +177,14 @@ export default function drawGraphVisBoundedForce(inputGraph) {
     }
 
     function clicked() {
-      console.log('this from clicked', this);
       const m = d3.mouse(this);
       const d = findDataUnderMouse(m);
-      const blockUrl = `http://bl.ocks.org/${d.user
-        ? `${d.user}/`
-        : ''}${d.id}`;
-      window.open(blockUrl);
+      if (typeof d !== 'undefined') {
+        const blockUrl = `http://bl.ocks.org/${d.user
+          ? `${d.user}/`
+          : ''}${d.id}`;
+        window.open(blockUrl);
+      }
     }
   }
 
@@ -221,14 +224,8 @@ export default function drawGraphVisBoundedForce(inputGraph) {
   }
 
   function drawLink(d) {
-    context.moveTo(
-      boundScalar(d.source.x),
-      boundScalar(d.source.y)
-    );
-    context.lineTo(
-      boundScalar(d.target.x),
-      boundScalar(d.target.y)
-    );
+    context.moveTo(boundScalar(d.source.x), boundScalar(d.source.y));
+    context.lineTo(boundScalar(d.target.x), boundScalar(d.target.y));
   }
 
   function drawNode(d) {
