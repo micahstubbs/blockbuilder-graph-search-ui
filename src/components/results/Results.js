@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import drawGraphVisGrid from './drawGraphVisGrid';
 import drawGraphVisBoundedForce from './drawGraphVisBoundedForce';
+import drawGraphVisSlippyCanvas from './drawGraphVisSlippyCanvas/drawGraphVisSlippyCanvas';
 
 export default class Results extends Component {
   componentDidUpdate() {
@@ -13,19 +14,23 @@ export default class Results extends Component {
         case 'boundedForce':
           drawGraphVisBoundedForce(results);
           break;
+        case 'slippyCanvas': 
+          drawGraphVisSlippyCanvas(results);
+          break;
         default:
-          drawGraphVisGrid(results);
+          drawGraphVisSlippyCanvas(results);
       }
     }
   }
 
   render() {
-    console.log('this.props.results from Results', this.props.results);
+    const { layout } = this.props;
+    console.log('this.props from Results', this.props);
     return (
       <a target="_blank" style={{ outline: 'none' }}>
         <div id="canvas-container">
           <div />
-          <canvas width="960" height="960">
+          <canvas width="1255" height="600" className={layout}>
             Your browser does not support canvas
           </canvas>
         </div>

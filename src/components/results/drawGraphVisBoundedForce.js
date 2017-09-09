@@ -3,6 +3,8 @@ import cloneDeep from 'lodash.clonedeep';
 import forceInABox from '../../lib/forceInABox';
 import jLouvain from '../../lib/jsLouvain';
 
+import cacheImages from './cacheImages';
+
 export default function drawGraphVisBoundedForce(inputGraph) {
   console.log('drawGraphVisBoundedForce was called');
   const canvas = document.querySelector('canvas');
@@ -17,23 +19,8 @@ export default function drawGraphVisBoundedForce(inputGraph) {
   //
   // cache images
   //
-  // TODO: be smarter about image caching
-  // so that they are not retrieved again
-  // when a button is clicked and layout updates
-  // cache images in redux?
   const imageCache = {};
   drawGraph(inputGraph, 'grid');
-
-  //
-  // add event listeners to buttons
-  // to switch layout on button click
-  //
-  d3.select('#grid-force-button').on('click', () => {
-    drawGraph(inputGraph, 'grid');
-  });
-  d3.select('#bounded-force-button').on('click', () => {
-    drawGraph(inputGraph, 'boundedForce');
-  });
 
   //
   // visualize the graph
@@ -188,6 +175,7 @@ export default function drawGraphVisBoundedForce(inputGraph) {
     }
 
     function clicked() {
+      console.log('this from clicked', this);
       const m = d3.mouse(this);
       const d = findDataUnderMouse(m);
       const blockUrl = `http://bl.ocks.org/${d.user
@@ -203,10 +191,7 @@ export default function drawGraphVisBoundedForce(inputGraph) {
       boundScalar(m[0], 'boundedForce'),
       boundScalar(m[1], 'boundedForce')
     ];
-    console.log('m', m);
-    console.log('bFM', bFM);
     const resultFound = simulation.find(bFM[0], bFM[1], searchRadius);
-    console.log('resultFound in findDataUnderMouse', resultFound);
     return resultFound;
   }
 
@@ -303,16 +288,5 @@ export default function drawGraphVisBoundedForce(inputGraph) {
       context.font = '20px Georgia';
       context.fillText('?', nX - 5, nY + 8);
     }
-  }
-
-  function cacheImages(graph, imageCache) {
-    graph.nodes.forEach(d => {
-      const image = new Image();
-
-      image.src = `https://bl.ocks.org/${d.user
-        ? `${d.user}/`
-        : ''}raw/${d.id}/thumbnail.png`;
-      imageCache[d.id] = image;
-    });
   }
 }
