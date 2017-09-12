@@ -2,22 +2,33 @@ import drawLink from './drawLink';
 import drawNode from './drawNode';
 
 export default function render(props) {
-  const { context, width, height, transform, graph, imageCache } = props;
+  const { context, width, height, graph, imageCache, rects, radius } = props;
+
   context.save();
   context.clearRect(0, 0, width, height);
-  context.beginPath();
-  context.translate(transform.x, transform.y);
-  context.scale(transform.k, transform.k);
+  // draw the invisible background
+  rects.forEach(rect => {
+    context.clearRect(0, 0, width, height);
 
-  // draw links
-  graph.links.forEach(drawLink.bind(this, context));
-  context.strokeStyle = '#aaa';
-  context.stroke();
-
-  // draw nodes
-  graph.nodes.forEach(node => {
+    // draw the links
+    context.strokeStyle = '#aaa';
+    context.lineWidth = 1;
     context.beginPath();
-    drawNode(context, imageCache, width, height, node);
+
+    const drawLinkProps = { graph, context, rect };
+    graph.links.forEach(drawLink.bind(this, drawLinkProps));
+    context.stroke();
+
+    // draw the nodes
+    context.beginPath();
+    const drawNodeProps = {
+      rect,
+      context,
+      imageCache,
+      radius
+    };
+    graph.nodes.forEach(drawNode.bind(this, drawNodeProps));
+    context.fill();
   });
 
   context.restore();
