@@ -14,6 +14,7 @@ export default function rootReducer(state = initialState, action) {
       links: []
     };
     const nodeHash = {};
+    const linkHash = {};
 
     console.log('responseData from parseResponse', responseData);
     const graphData = responseData.results[0].data;
@@ -36,11 +37,13 @@ export default function rootReducer(state = initialState, action) {
         // are in [source, target] format
         // TODO: check the neo4j REST API docs
         // to verify this
-        graph.links.push({
+        const tempLinkArray = [source, target].sort();
+        const linkId = tempLinkArray.join('');
+        linkHash[linkId] = {
           source,
           target,
           weight: 1 // for jsLouvain community detection
-        });
+        };
       }
     });
 
@@ -49,6 +52,11 @@ export default function rootReducer(state = initialState, action) {
     Object.keys(nodeHash).forEach(key => {
       graph.nodes.push(nodeHash[key]);
     });
+    // add the unique links that we've collected
+    // onto our graph object
+    Object.keys(linkHash).forEach(key => {
+      graph.links.push(linkHash[key]);
+    })
     return graph;
   }
   switch (action.type) {
