@@ -2,29 +2,32 @@ import * as d3 from 'd3';
 import cloneDeep from 'lodash.clonedeep';
 
 import jLouvain from '../../../lib/jsLouvain';
-import forceInABox from '../../../lib/forceInABox';
 
 import render from './render';
 import cacheImages from '../cacheImages';
 import dragged from './dragged';
-import zoomed from './zoomed';
+// import zoomed from './zoomed';
 import dragSubject from './dragSubject';
 import onClick from './onClick';
-import nodeDragStarted from './nodeDragStarted';
-import nodeDragEnded from './nodeDragEnded';
+import dragStarted from './dragStarted';
+import dragEnded from './dragEnded';
 
 export default function drawGraphVisSlippyCanvas(inputGraph) {
   console.log('drawGraphVisSlippyCanvas was called');
   console.log('inputGraph from drawGraphVisSlippyCanvas', inputGraph);
-  const canvas = document.querySelector('canvas');
-  const context = canvas.getContext('2d');
-  const width = canvas.width;
-  const height = canvas.height;
-  let transform = d3.zoomIdentity;
+  const canvas = d3.select('canvas');
+  const context = canvas.node().getContext('2d');
+  const width = canvas.property('width');
+  const height = canvas.property('height');
+  // let transform = d3.zoomIdentity;
 
   const imageCache = {};
   let simulation;
-  const searchRadius = 30;
+
+  // make a rect for the background
+  // d3.drag updates these values behind the scenes
+  const rects = [{ x: 0, y: 0, x2: 0, y2: 0 }];
+  const radius = 22;
 
   // make a copy of inputGraph
   // so that we have a pristine globalGraph
@@ -32,17 +35,13 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
   const graph = cloneDeep(inputGraph);
   cacheImages(graph, imageCache);
 
-  // Create the simulation with a small forceX and Y towards the center
+  //
+  // setup force simulation
+  //
   simulation = d3
     .forceSimulation()
     .force('charge', d3.forceManyBody())
-    .force('x', d3.forceX(0).strength(0.003))
-    .force('y', d3.forceY(0).strength(0.003));
-
-  // clear the canvas
-  context.clearRect(0, 0, canvas.width, canvas.height);
-
-  simulation.alphaTarget(0.2).restart();
+    .force('center', d3.forceCenter(width / 2, height / 2));
 
   //
   // detect communities with jsLouvain
@@ -80,75 +79,12 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
     link.target = nodeIndexHash[link.target];
   });
 
-  //
-  // Instantiate the grouping force
-  //
-  const groupingForce = forceInABox()
-    .strength(0.001) // Strength to foci
-    .template('force') // Either treemap or force
-    .groupBy('group') // Node attribute to group
-    .links(graph.links) // The graph links. Must be called after setting the grouping attribute
-    .size([width, height]); // Size of the chart
-
-  // Add your forceInABox to the simulation
-  simulation
-    .nodes(graph.nodes)
-    .force('group', groupingForce)
-    .force(
-      'link',
-      d3
-        .forceLink(graph.links)
-        .distance(50)
-        .strength(groupingForce.getLinkStrength) // default link force will try to join nodes in the same group stronger than if they are in different groups
-    );
-  // .on('tick', ticked);
-
-  for (var i = 0; i < 200; i++) {
-    simulation.tick();
-  }
-  simulation.stop();
-
-  //
-  // setup drag and zoom
-  //
-  const draggedProps = {
-    context,
-    width,
-    height,
-    transform,
-    graph,
-    imageCache,
-    simulation,
-    searchRadius,
-    canvas
-  };
-  const zoomedProps = { context, width, height, graph, imageCache };
-  const dragSubjectProps = {
-    transform,
-    searchRadius,
-    simulation
-  };
-  const onClickProps = { simulation, searchRadius, canvas, transform };
-  const nodeDragStartedProps = { simulation };
-  const nodeDragEndedProps = { simulation };
-  d3
-    .select(canvas)
-    .on('click', onClick.bind(this, onClickProps))
-    .call(
-      d3
-        .drag()
-        .container(canvas)
-        .subject(dragSubject.bind(this, dragSubjectProps))
-        .on('start', nodeDragStarted.bind(this, nodeDragStartedProps))
-        .on('drag', dragged.bind(this, draggedProps))
-        .on('end', nodeDragEnded.bind(this, nodeDragEndedProps))
-    )
-    .call(
-      d3
-        .zoom()
-        .scaleExtent([1 / 2, 8])
-        .on('zoom', zoomed.bind(this, zoomedProps))
-    );
+  // .call(
+  //   d3
+  //     .zoom()
+  //     .scaleExtent([1 / 2, 8])
+  //     .on('zoom', zoomed.bind(this, zoomedProps))
+  // );
 
   //
   // call render once to initialize
@@ -157,9 +93,55 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
     context,
     width,
     height,
-    transform,
     graph,
-    imageCache
+    imageCache,
+    rects,
+    radius
   };
-  render(renderProps);
+
+  // add a link force
+  simulation
+    .nodes(graph.nodes)
+    .force('link', d3.forceLink(graph.links).distance(50))
+    .on('tick', ticked.bind(this, renderProps));
+
+  //
+  // setup drag and zoom
+  //
+  const draggedProps = {
+    context,
+    width,
+    height,
+    graph,
+    imageCache,
+    simulation,
+    radius,
+    canvas
+  };
+  // const zoomedProps = { context, width, height, graph, imageCache };
+  const dragSubjectProps = {
+    graph,
+    radius,
+    rects
+  };
+  const onClickProps = {
+    graph,
+    radius,
+    rects
+  };
+  const dragStartedProps = { simulation };
+  const dragEndedProps = { simulation };
+  canvas.on('click', onClick.bind(this, onClickProps)).call(
+    d3
+      .drag()
+      .subject(dragSubject.bind(this, dragSubjectProps))
+      .on('start', dragStarted.bind(this, dragStartedProps))
+      .on('drag', dragged.bind(this, draggedProps))
+      .on('end', dragEnded.bind(this, dragEndedProps))
+      .on('start.render drag.render end.render', render.bind(this, renderProps))
+  );
+
+  function ticked(props) {
+    render(props);
+  }
 }
