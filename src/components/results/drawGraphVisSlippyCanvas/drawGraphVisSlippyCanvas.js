@@ -118,6 +118,7 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
   //
   // setup drag and zoom
   //
+  let currentSubject = {};
   const draggedProps = {
     context,
     width,
@@ -132,23 +133,22 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
   const dragSubjectProps = {
     graph,
     radius,
-    rects
+    rects,
+    currentSubject
   };
   const onClickProps = {
-    graph,
-    radius,
-    rects
+    currentSubject
   };
   const dragStartedProps = { simulation };
   const dragEndedProps = { simulation };
-  canvas.on('click', onClick.bind(this, onClickProps)).call(
+  canvas.on('click', onClick.bind(null, onClickProps)).call(
     d3
       .drag()
-      .subject(dragSubject.bind(this, dragSubjectProps))
-      .on('start', dragStarted.bind(this, dragStartedProps))
-      .on('drag', dragged.bind(this, draggedProps))
-      .on('end', dragEnded.bind(this, dragEndedProps))
-      .on('start.render drag.render end.render', render.bind(this, renderProps))
+      .subject(dragSubject.bind(null, dragSubjectProps))
+      .on('start', dragStarted.bind(null, dragStartedProps))
+      .on('drag', dragged.bind(null, draggedProps))
+      .on('end', dragEnded.bind(null, dragEndedProps))
+      .on('start.render drag.render end.render', render.bind(null, renderProps))
   );
 
   function ticked(props) {
