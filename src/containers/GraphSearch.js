@@ -8,6 +8,7 @@ import {
 } from '../actions';
 import SearchBar from '../components/SearchBar';
 import Results from '../components/results/Results';
+import { defaultQuery } from '../defaultQuery';
 
 class GraphSearch extends Component {
   render() {
@@ -23,7 +24,7 @@ class GraphSearch extends Component {
     return (
       <div>
         <SearchBar
-          defaultQuery="MATCH(n)-[:LINKS_TO]-(m) WHERE n.user =~ '.*enjalot.*'RETURN n, m"
+          defaultQuery={defaultQuery}
           getGraphSearch={getGraphSearch}
           dispatchRenderGridLayout={dispatchRenderGridLayout}
           dispatchRenderBoundedForceLayout={dispatchRenderBoundedForceLayout}
@@ -49,7 +50,8 @@ const mapDispatchToProps = dispatch => {
     dispatchRenderGridLayout: () => dispatch(dispatchRenderGridLayout()),
     dispatchRenderBoundedForceLayout: () =>
       dispatch(dispatchRenderBoundedForceLayout()),
-    dispatchRenderSlippyCanvasLayout: () => dispatch(dispatchRenderSlippyCanvasLayout())
+    dispatchRenderSlippyCanvasLayout: () =>
+      dispatch(dispatchRenderSlippyCanvasLayout())
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(GraphSearch);
