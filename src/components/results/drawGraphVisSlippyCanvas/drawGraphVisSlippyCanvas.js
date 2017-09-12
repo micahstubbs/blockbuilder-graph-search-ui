@@ -47,7 +47,7 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
         .radius(d => {
           return d.r * 1.8;
         })
-        .iterations(2)
+        .iterations(4)
     )
     .force('charge', d3.forceManyBody())
     .force('center', d3.forceCenter(width / 2, height / 2));
