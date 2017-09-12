@@ -29,7 +29,7 @@ export default function dragSubject(props) {
     } else if (typeof subject === 'undefined') {
       let background = rects[0];
       subject = background;
-      console.log('background', background);
+      // console.log('background', background);
     }
   }
   return subject;
