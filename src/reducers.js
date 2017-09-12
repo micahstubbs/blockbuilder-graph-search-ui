@@ -37,6 +37,7 @@ export default function rootReducer(state = initialState, action) {
         // are in [source, target] format
         // TODO: check the neo4j REST API docs
         // to verify this
+        // ignore link direction for now
         const tempLinkArray = [source, target].sort();
         const linkId = tempLinkArray.join('');
         linkHash[linkId] = {
