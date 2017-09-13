@@ -15,7 +15,7 @@ export default class Results extends Component {
     function initialize() {
       // Register an event listener to call the resizeCanvas() function
       // each time the window is resized
-      window.addEventListener('resize', resizeCanvas, false);
+      // window.addEventListener('resize', resizeCanvas, false);
       // Draw canvas border for the first time
       resizeCanvas();
     }
