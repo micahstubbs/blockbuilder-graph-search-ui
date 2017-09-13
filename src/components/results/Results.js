@@ -43,8 +43,6 @@ export default class Results extends Component {
           <canvas
             id="c"
             style={{position:'absolute', left:'0px', top:'100px'}}
-            width="1255"
-            height="600"
             className={layout}
           >
             Your browser does not support canvas
