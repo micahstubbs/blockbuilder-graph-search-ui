@@ -1,5 +1,6 @@
 import React from 'react';
 import QueryForm from './QueryForm';
+import TextInput from './TextInput';
 import SearchControls from './SearchControls';
 
 export default function SearchBar(props) {
@@ -12,7 +13,8 @@ export default function SearchBar(props) {
   } = props;
   return (
     <div className="controls">
-      <QueryForm defaultQuery={defaultQuery} getGraphSearch={getGraphSearch} />
+      {/* <QueryForm defaultQuery={defaultQuery} getGraphSearch={getGraphSearch} /> */}
+      <TextInput defaultQuery={defaultQuery} getGraphSearch={getGraphSearch} />
       <SearchControls
         dispatchRenderGridLayout={dispatchRenderGridLayout}
         dispatchRenderBoundedForceLayout={dispatchRenderBoundedForceLayout}
