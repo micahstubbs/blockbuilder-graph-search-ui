@@ -36,9 +36,9 @@ class GraphSearch extends Component {
       dispatchRenderBoundedForceLayout,
       dispatchRenderSlippyCanvasLayout,
       results,
-      layout,
+      layout
     } = this.props;
-    const { currentQuery} = this.state;
+    const { currentQuery } = this.state;
     console.log('this.props from GraphSearch', this.props);
     return (
       <div>
