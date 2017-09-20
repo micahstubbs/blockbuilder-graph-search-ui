@@ -58,7 +58,7 @@ export default function render(props) {
       imageCache,
       radius
     };
-    // graph.nodes.forEach(drawNode.bind(this, drawNodeProps));
+    graph.nodes.forEach(drawNode.bind(this, drawNodeProps));
     context.fill();
   });
 }
