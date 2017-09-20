@@ -13,21 +13,38 @@ export default function render(props) {
     context.lineWidth = 1;
     context.beginPath();
     graph.links.forEach(link => {
+      const sourceX = graph.nodes[link.source.index].x + rect.x;
+      const sourceY = graph.nodes[link.source.index].y + rect.y;
       const targetX = graph.nodes[link.target.index].x + rect.x;
       const targetY = graph.nodes[link.target.index].y + rect.y;
 
-      context.moveTo(
-        graph.nodes[link.source.index].x + rect.x,
-        graph.nodes[link.source.index].y + rect.y
-      );
-      context.lineTo(
-        targetX,
-        targetY
-      );
+      const t = Math.atan2(targetY - sourceY, targetX - sourceX);
+      const arrowTargetX = targetX - radius * Math.cos(t);
+      const arrowTargetY = targetY - radius * Math.sin(t);
+      const dt = Math.PI*(3/4);
+      const arrowLength  = 5;
+
+      // draw the link line
+      context.moveTo(sourceX, sourceY);
+      context.lineTo(targetX, targetY);
+
+      // draw the link arrow
       const path = new Path2D();
-      path.moveTo(targetX + 50, targetY);
-      path.lineTo(targetX, targetY - 50);
-      path.lineTo(targetX - 50, targetY);
+      // left
+      path.moveTo(
+        arrowLength * Math.cos(t - dt) + arrowTargetX,
+        arrowLength * Math.sin(t - dt) + arrowTargetY
+      );
+      // right
+      path.lineTo(
+        arrowLength * Math.cos(t + dt) + arrowTargetX,
+        arrowLength * Math.sin(t + dt) + arrowTargetY
+      );
+      // center-point
+      path.lineTo(
+        arrowTargetX,
+        arrowTargetY
+      );
       context.fillStyle = '#aaa'; // link gray
       context.fill(path);
     });
@@ -41,7 +58,7 @@ export default function render(props) {
       imageCache,
       radius
     };
-    graph.nodes.forEach(drawNode.bind(this, drawNodeProps));
+    // graph.nodes.forEach(drawNode.bind(this, drawNodeProps));
     context.fill();
   });
 }
