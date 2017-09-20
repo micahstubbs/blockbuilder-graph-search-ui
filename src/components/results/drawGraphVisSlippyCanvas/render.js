@@ -22,7 +22,7 @@ export default function render(props) {
       const arrowTargetX = targetX - radius * Math.cos(t);
       const arrowTargetY = targetY - radius * Math.sin(t);
       const dt = Math.PI*(3/4);
-      const arrowLength  = 5;
+      const arrowLength  = 6;
 
       // draw the link line
       context.moveTo(sourceX, sourceY);
