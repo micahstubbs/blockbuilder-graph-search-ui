@@ -43,6 +43,7 @@ class GraphSearch extends Component {
     return (
       <div>
         <SearchBar
+          results={results}
           defaultQuery={currentQuery}
           getGraphSearch={getGraphSearch}
           dispatchRenderGridLayout={dispatchRenderGridLayout}
