@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 import cloneDeep from 'lodash.clonedeep';
 
-import jLouvain from '../../../lib/jsLouvain';
+// import jLouvain from '../../../lib/jsLouvain';
 
 import render from './render';
 import cacheImages from '../cacheImages';
@@ -55,21 +55,22 @@ export default function drawGraphVisSlippyCanvas(inputGraph) {
   //
   // detect communities with jsLouvain
   //
-  const nodeData = graph.nodes.map(function(d) {
-    return d.id;
-  });
-  const linkData = graph.links.map(function(d) {
-    return { source: d.source, target: d.target, weight: d.weight };
-  });
+  // const nodeData = graph.nodes.map(function(d) {
+  //   return d.id;
+  // });
+  // const linkData = graph.links.map(function(d) {
+  //   return { source: d.source, target: d.target, weight: d.weight };
+  // });
 
-  const community = jLouvain()
-    .nodes(nodeData)
-    .edges(linkData);
-  const result = community();
+
+  // const community = jLouvain()
+  //   .nodes(nodeData)
+  //   .edges(linkData);
+  // const result = community();
 
   const nodeIndexHash = {};
   graph.nodes.forEach(function(node, i) {
-    node.group = result[node.id];
+    // node.group = result[node.id];
     node.r = radius;
     nodeIndexHash[node.id] = i;
   });
