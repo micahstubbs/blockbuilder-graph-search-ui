@@ -57,7 +57,21 @@ export default function rootReducer(state = initialState, action) {
     // onto our graph object
     Object.keys(linkHash).forEach(key => {
       graph.links.push(linkHash[key]);
-    })
+    });
+
+    // if the graph is empty
+    // and the query string contains a gist_id
+    // populate the graph with one node
+    // for that gist_id, that block
+    if (graph.nodes.length === 0) {
+      const paramsString = window.location.search;
+      const searchParams = new URLSearchParams(paramsString);
+      const gistId = searchParams.get('gist_id');
+      graph.nodes.push({
+        id: gistId
+      })
+    }
+
     return graph;
   }
   switch (action.type) {
