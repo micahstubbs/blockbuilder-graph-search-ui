@@ -3,7 +3,6 @@ import React from 'react';
 export default class SearchControls extends React.Component {
   render() {
     const { results } = this.props;
-    let resultsIcon = '';
     let resultsText = '';
     if (
       typeof results !== 'undefined' &&
