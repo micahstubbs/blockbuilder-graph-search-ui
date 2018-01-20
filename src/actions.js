@@ -11,7 +11,7 @@ export const getGraphSearch = query => {
   return dispatch => {
     dispatch(requestGraphSearch(query));
     console.log('query from actions.getGraphSearch', query);
-    const url = 'http://138.197.194.92:7474/db/data/transaction/commit';
+    const url = 'http://35.203.147.195:7474/db/data/transaction/commit';
     const requestData = JSON.stringify({
       statements: [
         {
